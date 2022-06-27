@@ -83,7 +83,7 @@ public class GuiLivro extends javax.swing.JDialog {
         jTextField2.setToolTipText("Digite o nome da cidade!");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel3.setText("Estado");
+        jLabel3.setText("Autor");
         jLabel3.setToolTipText("Informação obrigatória!");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
