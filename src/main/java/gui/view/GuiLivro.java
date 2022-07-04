@@ -45,7 +45,7 @@ public class GuiLivro extends javax.swing.JDialog {
         jTextField3 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro de Cidades");
+        setTitle("Cadastro de Livros");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Código");

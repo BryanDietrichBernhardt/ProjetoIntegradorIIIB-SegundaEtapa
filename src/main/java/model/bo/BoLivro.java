@@ -31,6 +31,7 @@ public class BoLivro implements I_BO {
      * *
      *
      * @return
+     * @throws exception.LivroException
      */
     @Override
     public boolean cadastrar() throws LivroException {
@@ -42,11 +43,11 @@ public class BoLivro implements I_BO {
             // cadastrar
             this.getDao().setVo(this.getVo());
             if (!this.getDao().cadastrar()) {
-                this.setErro("Houve um erro ao salvar as informações de cidade no banco de dados");
+                this.setErro("Houve um erro ao salvar as informações de livro no banco de dados");
                 return false;
             }
         } catch (LivroException ex) {
-            this.setErro("Houve um erro ao salvar as informações de cidade no banco de dados");
+            this.setErro("Houve um erro ao salvar as informações de livro no banco de dados");
             throw ex;
         }
 
@@ -72,11 +73,11 @@ public class BoLivro implements I_BO {
 
             // excluir
             if (!this.getDao().excluir()) {
-                this.setErro("Houve um erro ao excluir um cidade do banco de dados");
+                this.setErro("Houve um erro ao excluir um livro do banco de dados");
                 return false;
             }
         } catch (LivroException ex) {
-            this.setErro("Houve um erro ao excluir um cidade do banco de dados\n" + ex.getMessage());
+            this.setErro("Houve um erro ao excluir um livro do banco de dados\n" + ex.getMessage());
             throw ex;
         }
 
@@ -103,12 +104,12 @@ public class BoLivro implements I_BO {
                 return true;
             }
         } catch (LivroException ex) {
-            this.setErro("Houve um erro ao consultar um cidade do banco de dados\n" + ex.getMessage());
+            this.setErro("Houve um erro ao consultar um livro do banco de dados\n" + ex.getMessage());
             throw ex;
         }
 
         // erro 
-        this.setErro("Codigo de cidade não cadastrado!");
+        this.setErro("Codigo de livro não cadastrado!");
 
         // return
         return false;
@@ -118,6 +119,7 @@ public class BoLivro implements I_BO {
      * *
      *
      * @return
+     * @throws exception.LivroException
      */
     public VoConsulta obterLista() throws LivroException {
         try {
@@ -132,6 +134,7 @@ public class BoLivro implements I_BO {
      * *
      *
      * @return
+     * @throws exception.LivroException
      */
     public int proximoCodigoLivre() throws LivroException {
         try {
@@ -186,8 +189,8 @@ public class BoLivro implements I_BO {
         }
 
         // testa o valor da uf
-        if ((this.getVo().getAutor().length() < 2) || (this.getVo().getAutor().length() > 2)) {
-            msg += "O nome do autor deve ser informado e ter até N caracteres!\n";
+        if ((this.getVo().getAutor().length() > 255)) {
+            msg += "O nome do autor deve ser informado e ter até 255 caracteres!\n";
             error = false;
         }
 

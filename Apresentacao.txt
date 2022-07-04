@@ -1,0 +1,2 @@
+A primeira fase para a formulação do projeto, foi estudar a fundo e reaproveitar o código da primeira etapa, refatorando e adaptando para o problema proposto na segunda etapa.
+Inicialmente o grupo observou cada classe do projeto e alterou os nomes de métodos, classes e variáveis para os nomes de domínio do projeto.

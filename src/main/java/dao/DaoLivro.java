@@ -16,7 +16,7 @@ import projetosoftware.ProjetoSoftware;
 
 /**
  * create table cidade ( codigo int not null primary key, nome varchar not null,
- * uf varchar not null );
+ * autor varchar not null );
  */
 /**
  *
@@ -35,8 +35,8 @@ public class DaoLivro implements I_DAO {
     /**
      * *
      *
-     * @return @throws SQLException
-     * @throws ClassNotFoundException
+     * @return
+     * @throws exception.LivroException @throws SQLException
      */
     @Override
     public boolean cadastrar() throws LivroException {
@@ -45,25 +45,30 @@ public class DaoLivro implements I_DAO {
             String sql;
             if (this.existeCodigo()) {
                 // regravar
-                sql = "update cidade "
-                        + "set nome      = ?, "
-                        + "    uf        = ? "
-                        + "where codigo  = ?";
+                sql = "update livro  "
+                        + "set titulo      = ?"
+                        + "where codigo  = ?;" 
+                        + "update autor  "
+                        + "set nome = ?"
+                        + "where codigo = ?;";
 
                 // obtem objeto
                 PreparedStatement ps = this.getConexao().getBd().getStatement(sql);
 
                 // atribui valores
-                ps.setInt(3, vo.getCodigo());
+                ps.setInt(2, vo.getCodigo());
                 ps.setString(1, vo.getNome());
-                ps.setString(2, vo.getAutor());
+                ps.setString(3, vo.getAutor());
+                ps.setInt(4, vo.getCodigo());
 
                 // regrava no bd
                 this.getConexao().getBd().executaSQL(ps);
             } else {
                 // gravar
-                sql = "insert into cidade (codigo, nome, uf)"
-                        + " values (?, ?, ?)";
+                sql = "insert into livro (codigo, titulo)"
+                        + " values (?, ?);"
+                        + "insert into Autor (codigo, nome)"
+                        + "values(?, ?);";
 
                 // obtem objeto
                 PreparedStatement ps = this.getConexao().getBd().getStatement(sql);
@@ -74,7 +79,8 @@ public class DaoLivro implements I_DAO {
                 // atribui valores            
                 ps.setInt(1, vo.getCodigo());
                 ps.setString(2, vo.getNome());
-                ps.setString(3, vo.getAutor());
+                ps.setInt(3, vo.getCodigo());
+                ps.setString(4, vo.getAutor());
 
                 // regrava no bd
                 this.getConexao().getBd().executaSQL(ps);
@@ -89,8 +95,8 @@ public class DaoLivro implements I_DAO {
 
     /**
      *
-     * @return @throws SQLException
-     * @throws ClassNotFoundException
+     * @return
+     * @throws exception.LivroException @throws SQLException
      */
     @Override
     public boolean excluir() throws LivroException {
@@ -99,7 +105,7 @@ public class DaoLivro implements I_DAO {
             String sql;
             if (this.existeCodigo()) {
                 // regravar
-                sql = "delete from cidade where codigo = ?";
+                sql = "delete from livro where codigo = ?";
 
                 // obtem objeto
                 PreparedStatement ps = this.getConexao().getBd().getStatement(sql);
@@ -123,13 +129,13 @@ public class DaoLivro implements I_DAO {
 
     /**
      *
-     * @return @throws SQLException
-     * @throws ClassNotFoundException
+     * @return
+     * @throws exception.LivroException @throws SQLException
      */
     public VoConsulta obterLista() throws LivroException {
         try {
             // consultar o código
-            String sql = "select * from cidade where codigo > 0 order by nome";
+            String sql = "select livro.codigo, livro.titulo, autor.nome from livro join autor on livro.codigo = autor.codigo where livro.codigo > 0 order by livro.titulo";
 
             // executar sql
             ResultSet rs = this.getConexao().getBd().consulta(sql);
@@ -144,23 +150,22 @@ public class DaoLivro implements I_DAO {
     /**
      * *
      *
-     * @return @throws SQLException
-     * @throws SGBDException
-     * @throws ClassNotFoundException
+     * @return
+     * @throws exception.LivroException @throws SQLException
      */
     @Override
     public boolean consultar() throws LivroException {
         try {
             // consultar o código
-            String sql = "select * from cidade where codigo = " + this.getVo().getCodigo();
+            String sql = "select livro.codigo, livro.titulo, autor.nome from livro join autor on livro.codigo = autor.codigo where livro.codigo = " + this.getVo().getCodigo();
 
             // executar sql
             ResultSet rs = this.getConexao().getBd().consulta(sql);
 
             // testa resultado
             while (rs.next()) {
-                this.vo = new VoLivro(rs.getInt("codigo"), rs.getString("nome"),
-                        rs.getString("uf"));
+                this.vo = new VoLivro(rs.getInt("codigo"), rs.getString("titulo"),
+                        rs.getString("autor"));
                 return true;
             }
         } catch (ClassNotFoundException | SQLException | SGBDException e) {
@@ -174,14 +179,13 @@ public class DaoLivro implements I_DAO {
     /**
      * *
      *
-     * @return @throws SQLException
-     * @throws SGBDException
-     * @throws ClassNotFoundException
+     * @return
+     * @throws exception.LivroException @throws SQLException
      */
     public boolean existeCodigo() throws LivroException {
         try {
             // consultar o código
-            String sql = "select * from cidade where codigo = " + this.getVo().getCodigo();
+            String sql = "select * from livro where codigo = " + this.getVo().getCodigo();
 
             // executar sql
             ResultSet rs = this.getConexao().getBd().consulta(sql);
@@ -202,14 +206,13 @@ public class DaoLivro implements I_DAO {
     /**
      * *
      *
-     * @return @throws SQLException
-     * @throws SGBDException
-     * @throws ClassNotFoundException
+     * @return
+     * @throws exception.LivroException @throws SQLException
      */
     public int proximoCodigoLivre() throws LivroException {
         try {
             // consultar o código
-            String sql = "select max(codigo) from cidade";
+            String sql = "select max(codigo) from livro";
 
             // executar sql
             ResultSet rs = this.getConexao().getBd().consulta(sql);

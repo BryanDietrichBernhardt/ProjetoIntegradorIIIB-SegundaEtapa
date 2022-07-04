@@ -42,7 +42,7 @@ public class ProjetoSoftware {
             // houve erro
             JOptionPane.showMessageDialog(this.getGuiLivro(),
                     "Não foi possível estabelecer uma conexão com o banco de dados!"
-                    + "\nO sistema será encerrado",
+                    + "\nO sistema será encerrado" + ex,
                     "Conexão com o Banco de Dados", JOptionPane.ERROR_MESSAGE);
             System.exit(-1);
         }

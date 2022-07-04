@@ -11,20 +11,20 @@ package model.vo;
 public class VoLivro implements I_VO{
     // atributos
     private int codigo;
+    private String titulo;
     private String nome;
-    private String autor;
 
     // construtor
-    public VoLivro(int codigo, String nome, String autor) {
+    public VoLivro(int codigo, String titulo, String nome) {
         this.codigo = codigo;
+        this.titulo = titulo;
         this.nome = nome;
-        this.autor = autor;
     }
 
     // construtor
     public VoLivro() {
         this.codigo = 0;
-        this.autor = "";
+        this.titulo = "";
         this.nome = "";
     }
 
@@ -43,23 +43,23 @@ public class VoLivro implements I_VO{
     }
 
     public String getNome() {
-        return nome;
+        return titulo;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNome(String titulo) {
+        this.titulo = titulo;
     }
 
     public String getAutor() {
-        return autor;
+        return nome;
     }
 
-    public void setAutor(String autor) {
-        this.autor = autor;
+    public void setAutor(String nome) {
+        this.nome = nome;
     }
 
     @Override
     public String toString() {
-        return "VoCidade{" + "codigo=" + codigo + ", nome=" + nome + ", autor=" + autor + '}';
+        return "VoLivro{" + "codigo=" + codigo + ", nome=" + titulo + ", autor=" + nome + '}';
     }
 }
